@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="UDRF_AMR_Model">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-0.00591137033702896 0.124738363969582 0.122792068633473"
+        rpy="0 0 0" />
+      <mass
+        value="14.2039932900445" />
+      <inertia
+        ixx="0.126970359206886"
+        ixy="-1.44058897972358E-05"
+        ixz="3.06481811968199E-06"
+        iyy="0.191380250382105"
+        iyz="-3.58356058956857E-05"
+        izz="0.291678247232402" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://amr_sim/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://amr_sim/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="left_wheel">
+    <inertial>
+      <origin
+        xyz="1.62295621941588E-06 -6.63779840731626E-06 0.0315072954675824"
+        rpy="0 0 0" />
+      <mass
+        value="1.0510392293134" />
+      <inertia
+        ixx="0.0027577202396378"
+        ixy="1.98398252861109E-09"
+        ixz="-3.3971722585081E-10"
+        iyy="0.00275782694016087"
+        iyz="-7.0517109702979E-08"
+        izz="0.00521469816808539" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://amr_sim/meshes/left_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://amr_sim/meshes/left_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="left_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="0.31166 0.285 0.015"
+      rpy="-1.5708 -0.82186 -1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="left_wheel" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="right_wheel">
+    <inertial>
+      <origin
+        xyz="1.62281509219486E-06 -6.63853994181673E-06 0.0315072956645379"
+        rpy="0 0 0" />
+      <mass
+        value="1.05103912477071" />
+      <inertia
+        ixx="0.00275772024623309"
+        ixy="2.04542118268855E-09"
+        ixz="-3.39121797359472E-10"
+        iyy="0.00275782691111439"
+        iyz="-7.0517957676402E-08"
+        izz="0.00521469815221501" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://amr_sim/meshes/right_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://amr_sim/meshes/right_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="right_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="-0.31166 0.285 0.015"
+      rpy="-1.5708 1.2912 1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="right_wheel" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+</robot>
