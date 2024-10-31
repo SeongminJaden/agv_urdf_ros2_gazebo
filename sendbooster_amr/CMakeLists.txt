@@ -1,23 +1,22 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.8)
+project(sendbooster_amr)
 
-# 프로젝트 이름을 설정합니다.
-project(amr_sim)
-
-# 필요한 패키지를 찾습니다.
+# ROS 2 패키지 설정
 find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)  # 필요에 따라 추가
+find_package(rclcpp REQUIRED)
+find_package(robot_state_publisher REQUIRED)
 find_package(gazebo_ros REQUIRED)
+find_package(rviz2 REQUIRED)
 
-# 실행 파일이나 라이브러리 추가 (필요시)
-# add_executable(my_node src/my_node.cpp)
-# ament_target_dependencies(my_node rclcpp)
-
-# 설치 디렉토리 설정
-install(DIRECTORY meshes
-  DESTINATION share/${PROJECT_NAME}/meshes)
-
+# 설치할 launch 파일 경로 설정
 install(DIRECTORY launch
-  DESTINATION share/${PROJECT_NAME}/launch)
+  DESTINATION share/${PROJECT_NAME}
+)
 
+# 설치할 URDF, RViz 설정 파일 경로 설정
+install(DIRECTORY urdf rviz
+  DESTINATION share/${PROJECT_NAME}
+)
+
+# ament 패키지 설정
 ament_package()
-
