@@ -14,8 +14,8 @@ ros2 기반의 SLAM->Navigation을 목적으로 개발되었습니다.</br>
 |MW-AHRS X1|IMU|엔티렉스|1|154,000|154,000|
 |라즈베리파이 5|제어PC|라즈베리파이|1|117,700|117,700|구매처 - 엘레파츠|
 |Arducam 1080P|RGB Cam|Arducam|4|71,500|286,000|보유재고 확인|
-|TFmini Plus|LiDAR|초음파 센서|Benewake|4|65,890|263,560|
-|USB to UART|RS485|TTL to usb컨버터|디웰전자|4|19,448|77,792|
+|TFmini Plus LiDAR|초음파 센서|Benewake|4|65,890|263,560|
+|USB to UART RS485|TTL to usb컨버터|디웰전자|4|19,448|77,792|
 |USB to RS232|TTL to usb컨버터|엠디로봇|1|39,600 39,600|
 |PDIST30|전원분배보드|엠디로봇|1|110,000 110,000|
 |PDIST80|전원분배보드|엠디로봇|1|120,000 120,000|
