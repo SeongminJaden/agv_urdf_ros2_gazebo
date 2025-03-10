@@ -1,6 +1,6 @@
 # agv_urdf_ros2_gazebo
 agv_urdf_ros2_gazebo
-![{AA1A592F-71D5-411E-9E0C-E36CB05545FF}](https://github.com/user-attachments/assets/fc7b8c57-7e9c-4c68-b1a6-3aae9ecd1b15)
+![{AA1A592F-71D5-411E-9E0C-E36CB05545FF}](https://github.com/user-attachments/assets/fc7b8c57-7e9c-4c68-b1a6-3aae9ecd1b15) </br>
 600*600*600 폼펙터 규격의 Dual motor AGV입니다.
 ros2 기반의 SLAM->Navigation을 목적으로 개발되었습니다.
 
