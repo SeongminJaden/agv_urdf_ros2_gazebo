@@ -1,4 +1,4 @@
-<robot name="sendbooster_amr">
+<robot name="agv_amr">
   <link name="map"/> <!-- 최상위 링크: map -->
 
   <link name="base_link">
@@ -11,7 +11,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://sendbooster_amr/urdf/meshes/base_link.STL" />
+        <mesh filename="package://agv_amr/urdf/meshes/base_link.STL" />
       </geometry>
       <material name="">
         <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
@@ -20,7 +20,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://sendbooster_amr/urdf/meshes/base_link.STL" />
+        <mesh filename="package://agv_amr/urdf/meshes/base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -42,7 +42,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://sendbooster_amr/urdf/meshes/left_wheel.STL" />
+        <mesh filename="package://agv_amr/urdf/meshes/left_wheel.STL" />
       </geometry>
       <material name="">
         <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
@@ -51,7 +51,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://sendbooster_amr/urdf/meshes/left_wheel.STL" />
+        <mesh filename="package://agv_amr/urdf/meshes/left_wheel.STL" />
       </geometry>
     </collision>
   </link>
@@ -74,7 +74,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://sendbooster_amr/urdf/meshes/right_wheel.STL" />
+        <mesh filename="package://agv_amr/urdf/meshes/right_wheel.STL" />
       </geometry>
       <material name="">
         <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
@@ -83,7 +83,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://sendbooster_amr/urdf/meshes/right_wheel.STL" />
+        <mesh filename="package://agv_amr/urdf/meshes/right_wheel.STL" />
       </geometry>
     </collision>
   </link>

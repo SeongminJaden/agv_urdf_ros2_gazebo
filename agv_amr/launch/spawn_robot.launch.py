@@ -8,7 +8,7 @@ import os
 
 def generate_launch_description():
     # 로봇 설명 파일 경로
-    robot_description_path = '/home/ubuntu/ros2_ws/src/sendbooster_amr/urdf/sendbooster_amr.urdf'
+    robot_description_path = '/home/ubuntu/ros2_ws/src/agv_amr/urdf/agv_amr.urdf'
     
     # 기본 비어있는 Gazebo 월드 파일 경로
     empty_world_path = os.path.join(
@@ -34,7 +34,7 @@ def generate_launch_description():
             executable='rviz2',
             name='rviz2',
             output='screen',
-            arguments=['-d', '/home/ubuntu/ros2_ws/src/sendbooster_amr/rviz/sendbooster_amr.rviz'],
+            arguments=['-d', '/home/ubuntu/ros2_ws/src/agv_amr/rviz/agv_amr.rviz'],
             parameters=[{
                 'use_sim_time': True,
             }],
