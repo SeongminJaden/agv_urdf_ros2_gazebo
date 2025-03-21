@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>sendbooster_amr</name>
+  <name>agv_amr</name>
   <version>0.1.0</version>
-  <description>Sendbooster AMR ROS 2 Package</description>
+  <description>AMR ROS 2 Package</description>
 
   <maintainer email="seongmin@uzurotech.com">Seongmin</maintainer>
   <license>Apache 2.0</license>
