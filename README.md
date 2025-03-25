@@ -130,3 +130,125 @@ SLAM을 사용하여 실시간으로 지도 정보를 업데이트하려면, 맵
 
 ### 5.2 장애물 회피
 Navigation 시스템에서는 costmap을 사용하여 장애물 회피를 수행합니다. 로봇이 주행 중 장애물을 감지하면, move_base 패키지가 이를 기반으로 경로를 조정하고 회피할 수 있습니다.
+
+---
+
+ROS2에서 토픽을 보내고 구독하는 방법에 대해 설명드리겠습니다. 파이썬을 기준으로 설명하며, 예시 코드도 포함할 것입니다. 주로 rclpy 라이브러리를 사용하여 ROS2 노드를 작성하고, 토픽을 송신(publish)하고 수신(subscribe)하는 방법을 설명합니다.
+
+## 1. 토픽 메시지 송신 (Publisher)
+파이썬에서 토픽 메시지를 보내는 방법은 rclpy.Publisher를 사용하여 publish() 메서드로 메시지를 전송하는 방식입니다. 아래는 geometry_msgs/Twist 메시지 타입을 사용하여 cmd_vel 토픽으로 메시지를 보내는 예시입니다.
+
+### 1.1 Publisher 예시 코드
+```
+import rclpy
+from rclpy.node import Node
+from geometry_msgs.msg import Twist
+
+class MinimalPublisher(Node):
+    def __init__(self):
+        super().__init__('minimal_publisher')
+        # Publisher 객체 생성, 'cmd_vel' 토픽에 Twist 메시지 타입으로 메시지 전송
+        self.publisher_ = self.create_publisher(Twist, 'cmd_vel', 10)
+        
+        # 1초마다 메시지를 발행하는 타이머 설정
+        self.timer = self.create_timer(1.0, self.timer_callback)
+
+    def timer_callback(self):
+        # Twist 메시지 객체 생성
+        msg = Twist()
+        
+        # 메시지에 속도 값 설정 (예: 선형 속도)
+        msg.linear.x = 0.5  # 0.5 m/s로 전진
+        msg.angular.z = 0.1  # 0.1 rad/s로 회전
+        
+        # 메시지를 'cmd_vel' 토픽으로 발행
+        self.publisher_.publish(msg)
+        self.get_logger().info(f"Publishing: linear.x = {msg.linear.x}, angular.z = {msg.angular.z}")
+
+def main(args=None):
+    rclpy.init(args=args)
+    minimal_publisher = MinimalPublisher()
+    
+    # 2초마다 노드를 실행
+    rclpy.spin(minimal_publisher)
+    
+    minimal_publisher.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+설명
+create_publisher(): cmd_vel이라는 토픽에 Twist 메시지 타입을 발행하기 위해 사용됩니다.
+
+timer_callback(): 1초마다 호출되는 콜백 함수로, Twist 메시지를 만들어서 cmd_vel 토픽으로 발행합니다.
+
+publish(): 실제로 메시지를 전송하는 메서드입니다.
+
+rclpy.spin(): ROS2 노드를 실행시키는 함수로, 계속해서 메시지를 발행하려면 노드를 계속 실행시켜야 합니다.
+
+## 2. 토픽 메시지 구독 (Subscriber)
+토픽을 구독하려면 rclpy.Subscriber를 사용합니다. 구독한 메시지를 받을 콜백 함수를 정의하고, subscribe() 메서드로 해당 토픽을 구독합니다.
+
+### 2.1 Subscriber 예시 코드
+```
+import rclpy
+from rclpy.node import Node
+from geometry_msgs.msg import Twist
+
+class MinimalSubscriber(Node):
+    def __init__(self):
+        super().__init__('minimal_subscriber')
+        
+        # 'cmd_vel' 토픽을 구독하고, 구독할 메시지 타입은 Twist로 설정
+        self.subscription = self.create_subscription(
+            Twist,
+            'cmd_vel',
+            self.listener_callback,
+            10
+        )
+        self.subscription  # prevent unused variable warning
+
+    def listener_callback(self, msg):
+        # 받은 메시지를 출력
+        self.get_logger().info(f"Received: linear.x = {msg.linear.x}, angular.z = {msg.angular.z}")
+
+def main(args=None):
+    rclpy.init(args=args)
+    minimal_subscriber = MinimalSubscriber()
+    
+    # 노드를 실행하여 메시지를 수신하도록 함
+    rclpy.spin(minimal_subscriber)
+    
+    minimal_subscriber.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+설명
+create_subscription(): cmd_vel 토픽을 구독하고, Twist 메시지 타입을 받아올 수 있게 합니다.
+
+listener_callback(): 메시지를 수신할 때 호출되는 콜백 함수입니다. 여기에서는 수신된 메시지를 로깅합니다.
+
+rclpy.spin(): ROS2 노드를 실행시켜서 계속해서 메시지를 수신합니다.
+
+## 3. 토픽 송수신 실습 예시
+Publisher 실행: 위의 MinimalPublisher 코드를 실행하면, 로봇의 속도 정보를 1초마다 cmd_vel 토픽에 전송합니다.
+
+Subscriber 실행: MinimalSubscriber 코드를 실행하면, cmd_vel 토픽을 구독하고, 로봇의 속도 정보가 수신될 때마다 해당 속도 값을 출력합니다.
+
+## 4. 중요한 사항
+콜백 함수: 구독자는 메시지를 수신할 때마다 listener_callback과 같은 콜백 함수를 호출합니다. 이 함수 내에서 메시지 처리 로직을 작성할 수 있습니다.
+
+QoS (Quality of Service): 메시지를 전송하거나 구독할 때 QoS 설정을 조정할 수 있습니다. 이는 네트워크 환경에 따라 메시지의 신뢰성 및 전송 주기를 설정할 수 있습니다. 예를 들어, 10은 메시지 큐의 길이를 의미합니다.
+
+```
+from rclpy.qos import QoSProfile, QoSHistoryPolicy
+
+qos_profile = QoSProfile(depth=10, history=QoSHistoryPolicy.KEEP_LAST)
+```
+이러한 설정은 주로 실시간 제어 시스템에서 중요한 역할을 합니다.
+
+## 결론
+ROS2에서 토픽을 사용하여 메시지를 송신하고 구독하는 방식은 매우 직관적입니다. rclpy.Publisher와 rclpy.Subscriber를 사용하면 간단하게 토픽을 통해 데이터를 전송하고 받을 수 있습니다. 위의 예시 코드를 바탕으로 토픽을 사용한 실시간 데이터 송수신을 구현할 수 있습니다.
