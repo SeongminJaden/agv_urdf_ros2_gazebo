@@ -36,6 +36,9 @@ ros2 기반의 SLAM->Navigation을 목적으로 개발되었습니다.</br>
 ![20241007_073647](https://github.com/user-attachments/assets/900edc4f-fe10-46d9-9853-cd276df5fe2c)
 ![20241007_050917](https://github.com/user-attachments/assets/b31b3b19-8d60-4ca6-8579-9f3347b03c4a)
 
+github
+[amr bringup launch package](https://github.com/SeongminJaden/ros2_amr)
+
 # ROS2 Humble - TurtleBot3 SLAM 및 Navigation 설정
 
 이 문서는 ROS2 Humble에서 TurtleBot3의 SLAM (Simultaneous Localization and Mapping) 및 Navigation을 설정하고 사용하는 방법을 설명합니다.
