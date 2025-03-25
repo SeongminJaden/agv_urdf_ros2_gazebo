@@ -36,4 +36,96 @@ ros2 기반의 SLAM->Navigation을 목적으로 개발되었습니다.</br>
 ![20241007_073647](https://github.com/user-attachments/assets/900edc4f-fe10-46d9-9853-cd276df5fe2c)
 ![20241007_050917](https://github.com/user-attachments/assets/b31b3b19-8d60-4ca6-8579-9f3347b03c4a)
 
+# ROS2 Humble - TurtleBot3 SLAM 및 Navigation 설정
 
+이 문서는 ROS2 Humble에서 TurtleBot3의 SLAM (Simultaneous Localization and Mapping) 및 Navigation을 설정하고 사용하는 방법을 설명합니다.
+
+## 1. 개요
+
+TurtleBot3는 ROS2 환경에서 로봇의 SLAM 및 Navigation을 지원하는 인기 있는 플랫폼입니다. 이 문서는 TurtleBot3에서 SLAM과 Navigation 기능을 활성화하고 이를 활용하는 데 필요한 정보를 제공합니다.
+
+### 1.1 SLAM (Simultaneous Localization and Mapping)
+SLAM은 로봇이 자신의 위치를 추정하면서 동시에 환경의 맵을 생성하는 기술입니다. TurtleBot3에서는 다양한 SLAM 알고리즘을 사용할 수 있습니다.
+
+### 1.2 Navigation
+Navigation은 로봇이 주어진 환경에서 목표 지점으로 안전하게 이동할 수 있도록 하는 기술입니다. 이 과정에서는 로봇의 위치 추정, 장애물 회피 및 경로 계획을 포함합니다.
+
+---
+
+## 2. TurtleBot3 설치 및 환경 설정
+
+### 2.1 ROS2 Humble 설치
+
+1. **ROS2 Humble**을 설치하려면 [ROS2 공식 설치 문서](https://docs.ros.org/en/humble/Installation.html)를 참조하십시오.
+   
+2. ROS2 Humble을 설치한 후, TurtleBot3 패키지를 설치해야 합니다:
+
+```bash
+sudo apt update
+sudo apt install ros-humble-turtlebot3 ros-humble-turtlebot3-msgs
+2.2 TurtleBot3 모델 설정
+TurtleBot3 모델을 설정하려면 아래의 명령을 통해 환경 변수에 모델을 설정합니다. 이를 통해 다양한 TurtleBot3 모델(버거, 와플 등)을 선택할 수 있습니다.
+```
+```bash
+export TURTLEBOT3_MODEL=burger  # burger, waffle, waffle_pi 중 선택
+```
+## 3. SLAM 사용하기
+### 3.1 SLAM 설정
+TurtleBot3는 slam_toolbox를 사용하여 SLAM을 설정합니다. 아래 명령을 통해 SLAM을 시작할 수 있습니다.
+
+SLAM 실행:
+
+```bash
+ros2 launch turtlebot3_navigation2 slam_toolbox_launch.py
+```
+이 명령은 TurtleBot3의 SLAM 기능을 활성화하고, slam_toolbox를 사용하여 맵을 생성합니다. 로봇을 움직이면서 주변 환경의 맵을 작성할 수 있습니다.
+
+### 3.2 SLAM 관련 토픽
+SLAM을 사용할 때 생성되는 주요 토픽은 다음과 같습니다:
+```
+/slam_toolbox/trajectory: SLAM 트래젝토리 정보
+/map: 생성된 맵 데이터
+/scan: LiDAR 센서로부터의 거리 측정 데이터
+/tf: 로봇의 위치 및 방향을 나타내는 변환 정보
+```
+### 3.3 SLAM 관련 메시지 타입
+SLAM에 관련된 주요 메시지 타입은 다음과 같습니다:
+```
+sensor_msgs/LaserScan: LiDAR 센서 데이터를 나타내는 메시지 타입으로, /scan 토픽에서 사용됩니다.
+nav_msgs/OccupancyGrid: 생성된 맵 데이터를 나타내는 메시지 타입으로, /map 토픽에서 사용됩니다.
+geometry_msgs/Pose: 로봇의 위치와 방향을 나타내는 메시지 타입으로, /tf 및 /slam_toolbox/trajectory에서 사용됩니다.
+```
+## 4. Navigation 사용하기
+### 4.1 Navigation 설정
+TurtleBot3의 Navigation을 설정하려면 nav2_bringup 패키지를 사용합니다. 아래 명령을 통해 Navigation을 활성화할 수 있습니다.
+
+Navigation 실행:
+
+```
+ros2 launch turtlebot3_navigation2 navigation_launch.py
+```
+이 명령은 Navigation을 활성화하고 로봇이 맵에서 지정된 목표 위치로 이동할 수 있도록 합니다.
+
+### 4.2 Navigation 관련 토픽
+Navigation을 사용할 때 생성되는 주요 토픽은 다음과 같습니다:
+```
+/move_base_simple/goal: 목표 지점을 지정하는 토픽
+/cmd_vel: 로봇의 속도 명령을 보내는 토픽
+/odom: 로봇의 오도메트리 정보
+/tf: 로봇의 위치와 방향을 나타내는 변환 정보
+/costmap: 장애물 맵을 나타내는 토픽
+```
+### 4.3 Navigation 관련 메시지 타입
+Navigation에 관련된 주요 메시지 타입은 다음과 같습니다:
+```
+geometry_msgs/PoseStamped: 목표 지점의 위치와 방향을 지정하는 메시지 타입으로, /move_base_simple/goal에서 사용됩니다.
+geometry_msgs/Twist: 로봇의 선형 속도와 각속도를 나타내는 메시지 타입으로, /cmd_vel에서 사용됩니다.
+nav_msgs/Odometry: 로봇의 위치와 속도 정보를 나타내는 메시지 타입으로, /odom에서 사용됩니다.
+nav_msgs/OccupancyGrid: 장애물 맵 정보를 나타내는 메시지 타입으로, /costmap에서 사용됩니다.
+```
+## 5. 실시간 지도 업데이트 및 장애물 회피
+### 5.1 지도 업데이트
+SLAM을 사용하여 실시간으로 지도 정보를 업데이트하려면, 맵이 업데이트될 때마다 /map 토픽을 구독하여 새롭게 생성된 맵을 확인할 수 있습니다.
+
+### 5.2 장애물 회피
+Navigation 시스템에서는 costmap을 사용하여 장애물 회피를 수행합니다. 로봇이 주행 중 장애물을 감지하면, move_base 패키지가 이를 기반으로 경로를 조정하고 회피할 수 있습니다.
