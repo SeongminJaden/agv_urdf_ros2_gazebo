@@ -63,7 +63,8 @@ Navigation은 로봇이 주어진 환경에서 목표 지점으로 안전하게 
 ```bash
 sudo apt update
 sudo apt install ros-humble-turtlebot3 ros-humble-turtlebot3-msgs
-2.2 TurtleBot3 모델 설정
+```
+### 2.2 TurtleBot3 모델 설정
 TurtleBot3 모델을 설정하려면 아래의 명령을 통해 환경 변수에 모델을 설정합니다. 이를 통해 다양한 TurtleBot3 모델(버거, 와플 등)을 선택할 수 있습니다.
 ```
 ```bash
