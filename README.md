@@ -66,7 +66,7 @@ sudo apt install ros-humble-turtlebot3 ros-humble-turtlebot3-msgs
 ```
 ### 2.2 TurtleBot3 모델 설정
 TurtleBot3 모델을 설정하려면 아래의 명령을 통해 환경 변수에 모델을 설정합니다. 이를 통해 다양한 TurtleBot3 모델(버거, 와플 등)을 선택할 수 있습니다.
-```
+
 ```bash
 export TURTLEBOT3_MODEL=burger  # burger, waffle, waffle_pi 중 선택
 ```
