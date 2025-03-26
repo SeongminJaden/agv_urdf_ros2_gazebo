@@ -75,19 +75,19 @@ export TURTLEBOT3_MODEL=burger  # burger, waffle, waffle_pi 중 선택
 ```
 ## 3. SLAM 사용하기
 ### 3.1 SLAM 설정
-TurtleBot3는 slam_toolbox를 사용하여 SLAM을 설정합니다. 아래 명령을 통해 SLAM을 시작할 수 있습니다.
+TurtleBot3는 Cartograper를 사용하여 SLAM을 설정합니다. 아래 명령을 통해 SLAM을 시작할 수 있습니다.
 
 SLAM 실행:
 
 ```bash
-ros2 launch turtlebot3_navigation2 slam_toolbox_launch.py
+ros2 launch turtlebot3_cartographer cartographer.launch.py use_sim_time:=True
 ```
-이 명령은 TurtleBot3의 SLAM 기능을 활성화하고, slam_toolbox를 사용하여 맵을 생성합니다. 로봇을 움직이면서 주변 환경의 맵을 작성할 수 있습니다.
+이 명령은 TurtleBot3의 SLAM 기능을 활성화하고, Cartograper를 사용하여 맵을 생성합니다. 로봇을 움직이면서 주변 환경의 맵을 작성할 수 있습니다.
 
 ### 3.2 SLAM 관련 토픽
 SLAM을 사용할 때 생성되는 주요 토픽은 다음과 같습니다:
 ```
-/slam_toolbox/trajectory: SLAM 트래젝토리 정보
+/Cartograper/trajectory: SLAM 트래젝토리 정보
 /map: 생성된 맵 데이터
 /scan: LiDAR 센서로부터의 거리 측정 데이터
 /tf: 로봇의 위치 및 방향을 나타내는 변환 정보
