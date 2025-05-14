@@ -255,3 +255,67 @@ qos_profile = QoSProfile(depth=10, history=QoSHistoryPolicy.KEEP_LAST)
 
 ## 결론
 ROS2에서 토픽을 사용하여 메시지를 송신하고 구독하는 방식은 매우 직관적입니다. rclpy.Publisher와 rclpy.Subscriber를 사용하면 간단하게 토픽을 통해 데이터를 전송하고 받을 수 있습니다. 위의 예시 코드를 바탕으로 토픽을 사용한 실시간 데이터 송수신을 구현할 수 있습니다.
+
+
+## 🔧 전체 하드웨어 연결 구조 요약
+
+```
+[LiDAR]   →  
+            \
+             → [Raspberry Pi (ROS 2 노드 실행)]
+            /
+[IMU]     →
+```
+[Raspberry Pi] ↔ [Motor Driver] ↔ [모터 (휠)]
+
+## 💡 각 장치별 연결 및 데이터 흐름
+### 1. LiDAR
+
+- 연결 방식: USB 또는 UART (보통 /dev/ttyUSB0, /dev/ttyAMA0 등)
+- 역할: 주변 환경을 2D 혹은 3D로 스캔 → /scan 토픽으로 퍼블리시
+- ROS2 노드: LiDAR 드라이버 노드 실행 (예: RPLIDAR → rplidar_ros2)
+
+```
+/dev/ttyUSB0 → LiDAR 드라이버 노드 → /scan (LaserScan 메시지)
+```
+
+### 2. IMU (관성측정장치)
+- 연결 방식: USB, I2C, SPI (보통 /dev/ttyUSB1 등으로 인식)
+- 역할: 가속도, 자이로, 자세 정보 제공 → /imu 토픽으로 퍼블리시
+- ROS2 노드: IMU 드라이버 노드 (예: microstrain_inertial_driver, bno055_ros2 등)
+
+```
+/dev/ttyUSB1 → IMU 드라이버 노드 → /imu (Imu 메시지)
+```
+
+### 3. 모터 드라이버
+- 연결 방식: USB, UART, CAN, PWM 등 (보통 /dev/ttyUSB2 또는 GPIO)
+- 입력: ROS2에서 계산된 속도 명령 (/cmd_vel)
+- 출력: 엔코더 값을 통해 실제 속도와 위치 피드백 (/wheel_odom, /encoder)
+- ROS2 노드: 모터 드라이버 제어 노드
+```
+/cmd_vel (Twist 메시지) → 모터 드라이버 → 모터 제어
+모터 드라이버 → /encoder or /wheel_odom (Odometry 메시지)
+```
+
+## 🧠 전체 흐름 예시 (ROS2 관점에서)
+- LiDAR → /scan : 지도 생성 및 장애물 인식용
+- IMU + 엔코더 → /odom 계산 : 로봇의 위치 추정
+- SLAM/Navigation → /cmd_vel 명령 생성
+- 모터 드라이버가 /cmd_vel 수신 → 모터 회전
+- 피드백 (IMU, 엔코더) → odom 갱신 → RViz 시각화
+
+## 💻 라즈베리파이 설정 예시
+- 라즈베리파이에 ROS 2 Humble 설치
+- 각 센서의 드라이버 노드 실행
+- udev 설정으로 포트 이름 고정 (/dev/lidar, /dev/imu, /dev/motor)
+
+> launch.py로 전체 시스템 통합 실행
+
+## 🔌 실제 물리 연결 예
+|장치|연결 방식|라즈베리파이 포트|
+|------|------|------|
+|LiDAR|USB|/dev/ttyUSB0|
+|IMU|USB / I2C||/dev/ttyUSB1 또는 GPIO I2C|
+|모터 드라이버|USB / UART / GPIO|/dev/ttyUSB2 또는 GPIO|
+
